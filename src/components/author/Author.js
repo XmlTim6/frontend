@@ -20,7 +20,7 @@ const Author = () => {
 
     useEffect(() => {
         getSubmissions();
-    }, [])
+    }, [])    
 
     const classes = useStyles();
 
@@ -32,7 +32,11 @@ const Author = () => {
             </Typography>
             <div>
                 {submissions.map(s => (
-                    <SubmissionitemAuthor submission={s} key={s.id} handleTakedown={handleTakedown}/>
+                    <SubmissionitemAuthor
+                        submission={s}
+                        key={s.id}
+                        handleTakedown={handleTakedown}
+                    />
                 ))}
             </div>
         </Container>

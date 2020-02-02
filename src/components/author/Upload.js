@@ -61,7 +61,7 @@ const Upload = (props) => {
                     <XmlEdit xml={xml} setError={() => setError('Error copying xml')} />
                 </div>
                 <div className={classes.submit}>
-                    <Button color="primary" variant="contained" onClick={handleSubmit}>Send</Button>
+                    <Button color="primary" variant="contained" onClick={handleSubmit}>Upload</Button>
                 </div>
             </Paper>
             <TextDialog open={open} onClose={closeCopyDialog} handleSubmit={handleCopy} />

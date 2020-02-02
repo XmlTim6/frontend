@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 const XmlEdit = (props) => {
     const { xml } = props
     const { setError } = props
+    
     useEffect(() => {
         var editor = document.getElementById("editor");
         const docSpec = {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { AppBar, Toolbar, Link, makeStyles, Typography } from '@material-ui/core';
 import { UserService } from '../../services/UserService';
-import { withRouter } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 import { UserRoles } from '../../enums/UserRoles';
+import history from '../../helpers/history';
 
-const Header = (props) => {
+const Header = () => {
 
     const classes = useStyles();
 
@@ -13,18 +13,18 @@ const Header = (props) => {
 
     const handleClickRegister = e => {
         e.preventDefault();
-        props.history.push('/register');
+        history.push('/register');
     }
 
     const handleClickLogin = e => {
         e.preventDefault();
-        props.history.push('/login')
+        history.push('/login')
     }
 
     const handleClickLogout = e => {
         e.preventDefault();
         UserService.logout();
-        props.history.push('/')
+        history.push('/')
     }
 
     return (
@@ -35,6 +35,7 @@ const Header = (props) => {
                     {currentUser && (
                         currentUser.role === UserRoles.AUTHOR ?
                             <span>
+                                <Link className={classes.link} component={RouterLink} to={'/author/mysubs'}>My submissions</Link>
                                 <Link className={classes.link} component={RouterLink} to={'/author/add'}>New submission</Link>
                                 <Link className={classes.link} component={RouterLink} to={'/author/reviews'}>Assigned reviews</Link>
                             </span>
@@ -63,7 +64,7 @@ const Header = (props) => {
     )
 }
 
-export default withRouter(Header);
+export default Header;
 
 const useStyles = makeStyles(theme => ({
     link: {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import { Container, Avatar, Typography, makeStyles, TextField, Button, Paper } from '@material-ui/core';
 import Header from './Header';
 import ChipInput from 'material-ui-chip-input';
@@ -141,7 +140,7 @@ const Register = () => {
     )
 }
 
-export default withRouter(Register);
+export default Register;
 
 const useStyles = makeStyles(theme => ({
     paper: {

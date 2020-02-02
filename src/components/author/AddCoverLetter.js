@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { Container, makeStyles } from '@material-ui/core';
 import Header from '../shared/Header';
 import Upload from './Upload';
-import { SubmissionService } from '../../services/SubmissionService';
+import { CoverLetterService } from '../../services/CoverLetterService';
+import { useParams } from 'react-router-dom';
 
 
-const AddSubmission = () => {
-    const [xml, setXml] = useState('<paper></paper>');
+const AddCoverLetter = () => {
+    let { submissionId } = useParams();
+
+    const [xml, setXml] = useState('<cover_letter></cover_letter>');
     const [text, setText] = useState({
         error: '',
         success: ''
@@ -19,13 +22,13 @@ const AddSubmission = () => {
         });
         const xmlString = window.Xonomy.harvest();
         setXml(xmlString);
-        SubmissionService.addSubmission(xmlString)
+        CoverLetterService.createCoverLetter(submissionId, xmlString)
             .then(() => {
                 setText({
                     success: 'Succesful upload',
                     error: ''
                 })
-                setXml('<paper></paper>');
+                setXml('<cover_letter></cover_letter>');
             },
                 () => {
                     setText({
@@ -46,12 +49,12 @@ const AddSubmission = () => {
                     {text.success}
                 </span>
             </Container>
-            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Upload submission"} />      
+            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Upload cover letter"} />      
         </Container>
     )
 }
 
-export default AddSubmission;
+export default AddCoverLetter;
 
 const useStyles = makeStyles(theme => ({
     error: {

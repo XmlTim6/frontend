@@ -5,7 +5,7 @@ import Upload from './Upload';
 import { SubmissionService } from '../../services/SubmissionService';
 
 
-const AddSubmission = () => {
+const AddPaperReview = () => {
     const [xml, setXml] = useState('<paper></paper>');
     const [text, setText] = useState({
         error: '',
@@ -46,12 +46,12 @@ const AddSubmission = () => {
                     {text.success}
                 </span>
             </Container>
-            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Upload submission"} />      
+            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Add paper with notes"} />      
         </Container>
     )
 }
 
-export default AddSubmission;
+export default AddPaperReview;
 
 const useStyles = makeStyles(theme => ({
     error: {

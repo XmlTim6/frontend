@@ -5,8 +5,8 @@ import Upload from './Upload';
 import { SubmissionService } from '../../services/SubmissionService';
 
 
-const AddSubmission = () => {
-    const [xml, setXml] = useState('<paper></paper>');
+const AddReviewForm = () => {
+    const [xml, setXml] = useState('<review_form></review_form>');
     const [text, setText] = useState({
         error: '',
         success: ''
@@ -25,7 +25,7 @@ const AddSubmission = () => {
                     success: 'Succesful upload',
                     error: ''
                 })
-                setXml('<paper></paper>');
+                setXml('<review_form></review_form>');
             },
                 () => {
                     setText({
@@ -46,12 +46,12 @@ const AddSubmission = () => {
                     {text.success}
                 </span>
             </Container>
-            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Upload submission"} />      
+            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Add review form"} />      
         </Container>
     )
 }
 
-export default AddSubmission;
+export default AddReviewForm;
 
 const useStyles = makeStyles(theme => ({
     error: {

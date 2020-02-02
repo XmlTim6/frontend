@@ -7,7 +7,10 @@ export const SubmissionService = {
     addSubmission,
     setEditor,
     setReviewers,
-    takedown
+    takedown,
+    setStatus,
+    getPapersForSub,
+    getReviewsForSub,
 }
 
 function getSumbissionsOfAuthor() {
@@ -48,3 +51,19 @@ function setReviewers(submissionId, ids) {
 function takedown(submissionId) {
     return axios.put(`http://localhost:8043/api/submission/${submissionId}/takedown`)
 }
+
+function setStatus(submissionId, status) {
+    const data = {
+        status: status
+    }
+    return axios.put(`http://localhost:8043/api/submission/${submissionId}/set_status`, data)
+}
+
+function getPapersForSub(submissionId) {
+    return axios.get(`http://localhost:8043/api/paper/papersOfSubmission?submission=${submissionId}`)
+}
+
+function getReviewsForSub(submissionId) {
+    return axios.get(`http://localhost:8043/api/reviewForm/reviewFormsOfSubmission?submissionId=${submissionId}`)
+}
+

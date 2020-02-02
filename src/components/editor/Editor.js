@@ -74,6 +74,16 @@ const Editor = () => {
             })
     }
 
+    const setStatus = (id, status) => {
+        SubmissionService.setStatus(id, status)
+            .then(() => {
+                getSubmissions();
+            },
+            error => {
+                console.log(error.response)
+            })
+    }
+
     const classes = useStyles();
 
     return (
@@ -90,6 +100,7 @@ const Editor = () => {
                         users={users}
                         openEditorDialog={openEditorDialog}
                         openAuthorDialog={openAuthorDialog}
+                        setStatus={setStatus}
                     />
                 ))}
             </div>

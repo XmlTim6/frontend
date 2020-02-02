@@ -3,11 +3,10 @@ import { UserService } from '../../services/UserService';
 import { Container, Avatar, Typography, makeStyles, TextField, Button, Paper } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { setToken } from '../../services/TokenService';
-import { UserRoles } from '../../enums/UserRoles'
 import Header from './Header';
-import { withRouter } from 'react-router';
+import history from '../../helpers/history';
 
-const Login = (props) => {
+const Login = () => {
     const [state, setState] = useState({
         email: '',
         password: ''
@@ -36,11 +35,7 @@ const Login = (props) => {
     }
 
     const redirect = () => {
-        if (UserService.getCurrentUser.role === UserRoles.EDITOR) {
-            props.history.push('/editor');
-        } else {
-            props.history.push('/author')
-        }
+        history.push('/');
     }
 
     const classes = useStyles();
@@ -101,7 +96,7 @@ const Login = (props) => {
     )
 }
 
-export default withRouter(Login);
+export default Login;
 
 const useStyles = makeStyles(theme => ({
     paper: {
