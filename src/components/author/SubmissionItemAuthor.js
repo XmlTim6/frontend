@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Paper, makeStyles, Button, Typography } from '@material-ui/core';
 import { checkClosed } from '../../helpers/checkClosed';
 import { SubmissionService } from '../../services/SubmissionService';
-import { Link } from 'react-router-dom';
 import { CoverLetterService } from '../../services/CoverLetterService';
 import history from '../../helpers/history';
+import PaperDialog from '../shared/PaperDialog';
 
 const SumbissionItemAuthor = (props) => {
     const { submission, handleTakedown } = props
@@ -16,12 +16,12 @@ const SumbissionItemAuthor = (props) => {
     useEffect(() => {
         SubmissionService.getPapersForSub(submission.id)
             .then(response => {
-                const links = response.data.map(link => link.replace('http://localhost:3000',''))
+                const links = response.data.map(link => link.replace('http://localhost:3000', ''))
                 setPapers(links)
             })
         CoverLetterService.getCoversForSub(submission.id)
             .then(response => {
-                const links = response.data.map(link => link.replace('http://localhost:3000',''))
+                const links = response.data.map(link => link.replace('http://localhost:3000', ''))
                 setLetters(links)
             })
     }, [submission])
@@ -34,9 +34,19 @@ const SumbissionItemAuthor = (props) => {
         history.push(`/author/revision/${submission.id}`);
     }
 
+    const [open, setOpen] = useState(false);
+
+    const handleOpenDialog = () => {
+        setOpen(true)
+    }
+
+    const handleCloseDialog = () => {
+        setOpen(false)
+    }
+
     return (
-        <Paper className={classes.paper}>
-            <div className={classes.flexContainer}>
+        <div>
+            <Paper className={classes.paper}>
                 <div>
                     <Typography variant="h6">
                         {`Title: ${submission.title}`}
@@ -47,62 +57,54 @@ const SumbissionItemAuthor = (props) => {
                         {`Revision: ${submission.currentRevision}`}
                     </Typography>
                 </div>
-                <div className={classes.grower}></div>
-                <div>
+
+                <div className={classes.buttons}>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={handleOpenDialog}
+                    >
+                        SEE PAPERS
+                </Button>
+                    <div className={classes.grower}></div>
                     {
-                        papers.map((paper) => <span key={`span_${paper}`}><Link key={`a_${paper}`} to={paper}>{paper}</Link><br /></span>)
+                        submission.status === "NEEDS_REWORK" &&
+                        <Button
+                            className={classes.button}
+                            color="primary"
+                            variant="contained"
+                            onClick={handleRevisionClick}
+                        >
+                            ADD REVISION
+                    </Button>
                     }
-                    <br />
                     {
-                        letters.map((letter) => <span key={`span_${letter}`}><Link key={`a_${letter}`} to={letter}>{letter}</Link><br /></span>)
+                        !checkClosed(submission) && submission.status !== "IN_REVIEW" &&
+                        <Button
+                            className={classes.button}
+                            color="primary"
+                            variant="contained"
+                            onClick={handleCoverLetterClick}
+                        >
+                            ADD COVER LETTER
+                    </Button>
+                    }
+                    {
+                        !checkClosed(submission) &&
+
+                        <Button
+                            className={classes.button}
+                            color="secondary"
+                            variant="contained"
+                            onClick={() => handleTakedown(submission.id)}
+                        >
+                            TAKEDOWN
+                        </Button>
                     }
                 </div>
-            </div>
-
-            <div className={classes.buttons}>
-                <Button
-                    color="primary"
-                    variant="contained"
-                >
-                    SEE PAPERS
-                </Button>
-                <div className={classes.grower}></div>
-                {
-                    submission.status === "NEEDS_REWORK" &&
-                    <Button
-                        className={classes.button}
-                        color="primary"
-                        variant="contained"
-                        onClick={handleRevisionClick}
-                    >
-                        ADD REVISION
-                    </Button>
-                }
-                {
-                    !checkClosed(submission) && submission.status !== "IN_REVIEW" &&
-                    <Button
-                        className={classes.button}
-                        color="primary"
-                        variant="contained"
-                        onClick={handleCoverLetterClick}
-                    >
-                        ADD COVER LETTER
-                    </Button>
-                }
-                {
-                    !checkClosed(submission) &&
-
-                    <Button
-                        className={classes.button}
-                        color="secondary"
-                        variant="contained"
-                        onClick={() => handleTakedown(submission.id)}
-                    >
-                        TAKEDOWN
-                        </Button>
-                }
-            </div>
-        </Paper>
+            </Paper>
+            <PaperDialog open={open} onClose={handleCloseDialog} links={[...papers, ...letters]}/>
+        </div>
     )
 }
 
@@ -117,10 +119,6 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(1),
         display: 'flex',
         flexDirection: 'row',
-    },
-    flexContainer: {
-        display: 'flex',
-        flexDirection: 'row'
     },
     button: {
         marginLeft: theme.spacing(1)

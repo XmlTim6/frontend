@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Paper, makeStyles, Button, Typography } from '@material-ui/core';
 import { SubmissionService } from '../../services/SubmissionService';
 import history from '../../helpers/history';
-import { Link } from 'react-router-dom';
+import PaperDialog from '../shared/PaperDialog';
 
 const SumbissionItemReview = (props) => {
     const { submission } = props
@@ -32,9 +32,19 @@ const SumbissionItemReview = (props) => {
         history.push(`/author/reviews/${submission.id}/addReview`)
     }
 
+    const [open, setOpen] = useState(false);
+
+    const handleOpenDialog = () => {
+        setOpen(true)
+    }
+
+    const handleCloseDialog = () => {
+        setOpen(false)
+    }
+
     return (
-        <Paper className={classes.paper}>
-            <div className={classes.flexContainer}>
+        <div>
+            <Paper className={classes.paper}>
                 <div>
                     <Typography variant="h6">
                         {`Title: ${submission.title}`}
@@ -45,35 +55,28 @@ const SumbissionItemReview = (props) => {
                         {`Revision: ${submission.currentRevision}`}
                     </Typography>
                 </div>
-                <div className={classes.grower}></div>
-                <div>
-                    {
-                        papers.map((paper) => <span key={`span_${paper}`}><Link key={`a_${paper}`} to={paper}>{paper}</Link><br /></span>)
-                    }
-                    <br />
-                    {
-                        reviews.map((review) => <span key={`span_${review}`}><Link key={`a_${review}`} to={review}>{review}</Link><br /></span>)
-                    }
-                </div>
-            </div>
-            <div className={classes.buttons}>
-                <Button
-                    color="primary"
-                    variant="contained"
-                >
-                    SEE PAPERS
+
+                <div className={classes.buttons}>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={handleOpenDialog}
+                    >
+                        SEE PAPERS
                 </Button>
-                <div className={classes.grower}></div>
-                {
-                    submission.status !== 'NEEDS_REWORK' &&
-                    <span>
-                        <Button className={classes.button} color="primary" variant="contained" onClick={handleNotesClick}>ADD NOTES</Button>
-                        <Button className={classes.button} color="primary" variant="contained" onClick={handleReviewClick}>ADD REVIEW FORM</Button>
-                    </span>
-                }
-                <Button className={classes.button} color="secondary" variant="contained">REJECT</Button>
-            </div>
-        </Paper>
+                    <div className={classes.grower}></div>
+                    {
+                        submission.status !== 'NEEDS_REWORK' &&
+                        <span>
+                            <Button className={classes.button} color="primary" variant="contained" onClick={handleNotesClick}>ADD NOTES</Button>
+                            <Button className={classes.button} color="primary" variant="contained" onClick={handleReviewClick}>ADD REVIEW FORM</Button>
+                        </span>
+                    }
+                    <Button className={classes.button} color="secondary" variant="contained">REJECT</Button>
+                </div>
+            </Paper>
+            <PaperDialog open={open} onClose={handleCloseDialog} links={[...papers, ...reviews]} />
+        </div>
     )
 }
 
@@ -94,10 +97,6 @@ const useStyles = makeStyles(theme => ({
     },
     grower: {
         flexGrow: 1,
-    },
-    flexContainer: {
-        display: 'flex',
-        flexDirection: 'row',
     },
     wideButton: {
         marginBottom: theme.spacing(1),
