@@ -30,6 +30,10 @@ const SumbissionItemAuthor = (props) => {
         history.push(`/author/coverLetter/${submission.id}`);
     }
 
+    const handleRevisionClick = () => {
+        history.push(`/author/revision/${submission.id}`);
+    }
+
     return (
         <Paper className={classes.paper}>
             <div className={classes.flexContainer}>
@@ -69,6 +73,7 @@ const SumbissionItemAuthor = (props) => {
                         className={classes.button}
                         color="primary"
                         variant="contained"
+                        onClick={handleRevisionClick}
                     >
                         ADD REVISION
                     </Button>

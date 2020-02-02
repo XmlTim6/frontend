@@ -9,12 +9,18 @@ const SumbissionItemReview = (props) => {
     const classes = useStyles();
 
     const [papers, setPapers] = useState([])
+    const [reviews, setReviews] = useState([])
 
     useEffect(() => {
         SubmissionService.getPapersForSub(submission.id)
             .then(response => {
                 const links = response.data.map(link => link.replace('http://localhost:3000', ''))
                 setPapers(links)
+            })
+        SubmissionService.getReviewsForSub(submission.id)
+            .then(response => {
+                const links = response.data.map(link => link.replace('http://localhost:3000', ''))
+                setReviews(links)
             })
     }, [submission])
 
@@ -43,6 +49,10 @@ const SumbissionItemReview = (props) => {
                 <div>
                     {
                         papers.map((paper) => <span key={`span_${paper}`}><Link key={`a_${paper}`} to={paper}>{paper}</Link><br /></span>)
+                    }
+                    <br />
+                    {
+                        reviews.map((review) => <span key={`span_${review}`}><Link key={`a_${review}`} to={review}>{review}</Link><br /></span>)
                     }
                 </div>
             </div>

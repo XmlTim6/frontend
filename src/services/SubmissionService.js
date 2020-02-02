@@ -12,7 +12,8 @@ export const SubmissionService = {
     getPapersForSub,
     getReviewsForSub,
     addReview,
-    addReviewForm
+    addReviewForm,
+    addRevision
 }
 
 function getSumbissionsOfAuthor() {
@@ -87,4 +88,14 @@ function addReviewForm(submissionId, xml) {
     };
     return axios.post(`http://localhost:8043/api/reviewForm/${submissionId}`, xml, options)
 }
+
+function addRevision(submissionId, xml) {
+    var options = {
+        headers: {
+            'Content-Type': 'application/xml'
+        }
+    };
+    return axios.post(`http://localhost:8043/api/submission/${submissionId}/revision`, xml, options)
+}
+
 

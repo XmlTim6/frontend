@@ -15,6 +15,7 @@ import AddCoverLetter from './components/author/AddCoverLetter';
 import Details from './components/shared/Details';
 import AddPaperReview from './components/author/AddPaperReview';
 import AddReviewForm from './components/author/AddReviewForm';
+import AddRevision from './components/author/AddRevision';
 
 function App() {
   const classes = useStyles();
@@ -34,6 +35,7 @@ function App() {
           <PrivateRoute exact path='/author/mysubs' component={Author} roles={[UserRoles.AUTHOR]} />
           <PrivateRoute exact path='/author/add' component={AddSubmission} roles={[UserRoles.AUTHOR]} />
           <PrivateRoute exact path='/author/coverLetter/:submissionId' component={AddCoverLetter} roles={[UserRoles.AUTHOR]} />
+          <PrivateRoute exact path='/author/revision/:submissionId' component={AddRevision} roles={[UserRoles.AUTHOR]} />
           <PrivateRoute exact path='/author/reviews' component={AssignedReviews} roles={[UserRoles.AUTHOR]} />
           <PrivateRoute exact path='/author/reviews/:submissionId/addPaper' component={AddPaperReview} roles={[UserRoles.AUTHOR]} />
           <PrivateRoute exact path='/author/reviews/:submissionId/addReview' component={AddReviewForm} roles={[UserRoles.AUTHOR]} />

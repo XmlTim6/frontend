@@ -21,12 +21,12 @@ const Details = () => {
     }, [submissionId, revision, doc, api])
 
     useEffect(() => {
-        if (doc.includes('paper')) {
-            setApi('paper');
-        } else if (doc.includes('cover')) {
+        if (doc.includes('cover')) {
             setApi('coverLetter')
-        } else if (doc.includes('review')) {
+        } else if (doc.includes('review_form')) {
             setApi('reviewForm');
+        } else {
+            setApi('paper')
         }
     }, [doc])
 
@@ -57,7 +57,7 @@ const Details = () => {
                         XML
                     </a>
                 </div>
-                <Paper>
+                <Paper style={{ paddingTop: 16, paddingBottom: 16 }}>
                     <div id="content" onClick={navigate}>
 
                     </div>
