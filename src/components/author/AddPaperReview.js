@@ -3,6 +3,7 @@ import { Container, makeStyles } from '@material-ui/core';
 import Header from '../shared/Header';
 import Upload from './Upload';
 import { SubmissionService } from '../../services/SubmissionService';
+import { useParams } from 'react-router-dom';
 
 
 const AddPaperReview = () => {
@@ -12,6 +13,8 @@ const AddPaperReview = () => {
         success: ''
     })
 
+    const { submissionId } = useParams();
+
     const handleSubmitXml = () => {
         setText({
             error: '',
@@ -19,7 +22,7 @@ const AddPaperReview = () => {
         });
         const xmlString = window.Xonomy.harvest();
         setXml(xmlString);
-        SubmissionService.addSubmission(xmlString)
+        SubmissionService.addReview(submissionId, xmlString)
             .then(() => {
                 setText({
                     success: 'Succesful upload',
@@ -46,7 +49,7 @@ const AddPaperReview = () => {
                     {text.success}
                 </span>
             </Container>
-            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Add paper with notes"} />      
+            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Add paper with notes"} />
         </Container>
     )
 }

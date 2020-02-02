@@ -3,6 +3,7 @@ import { Container, makeStyles } from '@material-ui/core';
 import Header from '../shared/Header';
 import Upload from './Upload';
 import { SubmissionService } from '../../services/SubmissionService';
+import { useParams } from 'react-router-dom';
 
 
 const AddReviewForm = () => {
@@ -12,6 +13,8 @@ const AddReviewForm = () => {
         success: ''
     })
 
+    const { submissionId } = useParams();
+
     const handleSubmitXml = () => {
         setText({
             error: '',
@@ -19,7 +22,7 @@ const AddReviewForm = () => {
         });
         const xmlString = window.Xonomy.harvest();
         setXml(xmlString);
-        SubmissionService.addSubmission(xmlString)
+        SubmissionService.addReviewForm(submissionId, xmlString)
             .then(() => {
                 setText({
                     success: 'Succesful upload',

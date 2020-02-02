@@ -35,8 +35,8 @@ function App() {
           <PrivateRoute exact path='/author/add' component={AddSubmission} roles={[UserRoles.AUTHOR]} />
           <PrivateRoute exact path='/author/coverLetter/:submissionId' component={AddCoverLetter} roles={[UserRoles.AUTHOR]} />
           <PrivateRoute exact path='/author/reviews' component={AssignedReviews} roles={[UserRoles.AUTHOR]} />
-          <PrivateRoute exact path='/author/reviews/addPaper' component={AddPaperReview} roles={[UserRoles.AUTHOR]} />
-          <PrivateRoute exact path='/author/reviews/addReview' component={AddReviewForm} roles={[UserRoles.AUTHOR]} />
+          <PrivateRoute exact path='/author/reviews/:submissionId/addPaper' component={AddPaperReview} roles={[UserRoles.AUTHOR]} />
+          <PrivateRoute exact path='/author/reviews/:submissionId/addReview' component={AddReviewForm} roles={[UserRoles.AUTHOR]} />
         </Switch>
       </main>
     </div>

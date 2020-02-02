@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Paper, makeStyles, Button, Typography } from '@material-ui/core';
 import { SubmissionService } from '../../services/SubmissionService';
 import history from '../../helpers/history';
+import { Link } from 'react-router-dom';
 
 const SumbissionItemReview = (props) => {
     const { submission } = props
@@ -12,18 +13,17 @@ const SumbissionItemReview = (props) => {
     useEffect(() => {
         SubmissionService.getPapersForSub(submission.id)
             .then(response => {
-                setPapers(p => {
-                    return [...p, response.data]
-                })
+                const links = response.data.map(link => link.replace('http://localhost:3000', ''))
+                setPapers(links)
             })
     }, [submission])
 
     const handleNotesClick = () => {
-        history.push('/author/reviews/addPaper')
+        history.push(`/author/reviews/${submission.id}/addPaper`)
     }
 
     const handleReviewClick = () => {
-        history.push('/author/reviews/addReview')
+        history.push(`/author/reviews/${submission.id}/addReview`)
     }
 
     return (
@@ -42,7 +42,7 @@ const SumbissionItemReview = (props) => {
                 <div className={classes.grower}></div>
                 <div>
                     {
-                        papers.map((paper) => <span key={`span_${paper}`}><a key={`a_${paper}`} href={paper}>{paper}</a><br /></span>)
+                        papers.map((paper) => <span key={`span_${paper}`}><Link key={`a_${paper}`} to={paper}>{paper}</Link><br /></span>)
                     }
                 </div>
             </div>

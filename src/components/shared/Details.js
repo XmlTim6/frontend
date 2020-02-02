@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container } from '@material-ui/core';
+import { Container, Paper } from '@material-ui/core';
 import Header from './Header';
 import { PaperService } from '../../services/PaperService';
 import { getToken } from '../../services/TokenService';
@@ -57,9 +57,11 @@ const Details = () => {
                         XML
                     </a>
                 </div>
-                <div id="content" onClick={navigate}>
+                <Paper>
+                    <div id="content" onClick={navigate}>
 
-                </div>
+                    </div>
+                </Paper>
             </Container>
         </Container>
     )
