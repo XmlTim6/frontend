@@ -13,7 +13,8 @@ export const SubmissionService = {
     getReviewsForSub,
     addReview,
     addReviewForm,
-    addRevision
+    addRevision,
+    declineReview
 }
 
 function getSumbissionsOfAuthor() {
@@ -96,6 +97,10 @@ function addRevision(submissionId, xml) {
         }
     };
     return axios.post(`http://localhost:8043/api/submission/${submissionId}/revision`, xml, options)
+}
+
+function declineReview(submissionId) {
+    return axios.delete(`http://localhost:8043/api/submission/${submissionId}/decline_reviewing`)
 }
 
 

@@ -5,7 +5,7 @@ import history from '../../helpers/history';
 import PaperDialog from '../shared/PaperDialog';
 
 const SumbissionItemReview = (props) => {
-    const { submission } = props
+    const { submission, reject } = props
     const classes = useStyles();
 
     const [papers, setPapers] = useState([])
@@ -72,7 +72,7 @@ const SumbissionItemReview = (props) => {
                             <Button className={classes.button} color="primary" variant="contained" onClick={handleReviewClick}>ADD REVIEW FORM</Button>
                         </span>
                     }
-                    <Button className={classes.button} color="secondary" variant="contained">REJECT</Button>
+                    <Button className={classes.button} color="secondary" variant="contained" onClick={() => reject(submission.id)}>REJECT</Button>
                 </div>
             </Paper>
             <PaperDialog open={open} onClose={handleCloseDialog} links={[...papers, ...reviews]} />

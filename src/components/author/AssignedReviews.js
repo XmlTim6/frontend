@@ -13,6 +13,11 @@ const AssignedReviews = () => {
             .then(response => setSubmissions(response.data))
     }
 
+    const reject = (sumbissionId) => {
+        SubmissionService.declineReview(sumbissionId)
+            .then(() => getSubmissions())
+    }
+
     useEffect(() => {
         getSubmissions();
     }, [])
@@ -27,7 +32,7 @@ const AssignedReviews = () => {
             </Typography>
             <div>
                 {submissions.map(s => (
-                    <SumbissionItemReview submission={s} key={s.id} />
+                    <SumbissionItemReview submission={s} key={s.id} reject={reject} />
                 ))}
             </div>
         </Container>
