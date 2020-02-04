@@ -6,7 +6,7 @@ import { CoverLetterService } from '../../services/CoverLetterService';
 import PaperDialog from '../shared/PaperDialog';
 
 const SumbissionItemEditor = (props) => {
-    const { submission, users, openEditorDialog, openAuthorDialog, setStatus } = props
+    const { submission, users, openAuthorDialog, setStatus, setEditor } = props
 
     const classes = useStyles();
 
@@ -81,25 +81,26 @@ const SumbissionItemEditor = (props) => {
                         SEE PAPERS
                         </Button>
                     {
+                        !checkClosed(submission) && !submission.editorId &&
+                        <Button
+                            className={classes.wideButton}
+                            color="primary"
+                            variant="contained"
+                            onClick={() => setEditor(submission.id)}
+                        >
+                            ASSIGN SELF
+                            </Button>
+                    }
+                    {
                         !checkClosed(submission) &&
-                        <span>
-                            <Button
-                                className={classes.wideButton}
-                                color="primary"
-                                variant="contained"
-                                onClick={() => openEditorDialog(submission.id)}
-                            >
-                                SET EDITOR
+                        <Button
+                            className={classes.wideButton}
+                            color="primary"
+                            variant="contained"
+                            onClick={() => openAuthorDialog(submission.id, submission.userId)}
+                        >
+                            SET REVIEWERS
                         </Button>
-                            <Button
-                                className={classes.wideButton}
-                                color="primary"
-                                variant="contained"
-                                onClick={() => openAuthorDialog(submission.id, submission.userId)}
-                            >
-                                SET REVIEWERS
-                        </Button>
-                        </span>
                     }
                     <div className={classes.grower}></div>
                     {

@@ -4,7 +4,7 @@ import Header from '../shared/Header';
 import Upload from './Upload';
 import { SubmissionService } from '../../services/SubmissionService';
 import { useParams } from 'react-router-dom';
-import { reviewDocSpec } from '../../helpers/reviewDocSpec';
+import { reviewPaperDocSpec } from '../../helpers/reviewPaperDocSpec';
 
 const AddPaperReview = () => {
     const [xml, setXml] = useState('<paper></paper>');
@@ -20,7 +20,7 @@ const AddPaperReview = () => {
             error: '',
             success: ''
         });
-        const xmlString = window.Xonomy.harvest();
+        const xmlString = window.Xonomy.harvest().replace(/xml:space='preserve'/g, "");
         setXml(xmlString);
         SubmissionService.addReview(submissionId, xmlString)
             .then(() => {
@@ -49,7 +49,7 @@ const AddPaperReview = () => {
                     {text.success}
                 </span>
             </Container>
-            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Add paper with notes"} docSpec={reviewDocSpec}/>
+            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Add paper with notes"} docSpec={reviewPaperDocSpec}/>
         </Container>
     )
 }

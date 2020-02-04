@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { reviewDocSpec } from '../../helpers/reviewDocSpec';
 
 const AddReviewForm = () => {
-    const [xml, setXml] = useState('<review_form></review_form>');
+    const [xml, setXml] = useState('<review_form xmlns="XML_tim6"></review_form>');
     const [text, setText] = useState({
         error: '',
         success: ''
@@ -20,7 +20,7 @@ const AddReviewForm = () => {
             error: '',
             success: ''
         });
-        const xmlString = window.Xonomy.harvest();
+        const xmlString = window.Xonomy.harvest().replace(/xml:space='preserve'/g, "");
         setXml(xmlString);
         SubmissionService.addReviewForm(submissionId, xmlString)
             .then(() => {
@@ -28,7 +28,7 @@ const AddReviewForm = () => {
                     success: 'Succesful upload',
                     error: ''
                 })
-                setXml('<review_form></review_form>');
+                setXml('<review_form xmlns="XML_tim6"></review_form>');
             },
                 () => {
                     setText({

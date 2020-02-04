@@ -41,8 +41,6 @@ const SearchItem = (props) => {
                 <div>
                     {`Received : ${paper.received}`}
                     <br />
-                    {`Revised: ${paper.revised}`}
-                    <br />
                     {`Accepted: ${paper.accepted}`}
                     <br />
                     <Button style={{ marginTop: 8 }} color="primary" variant="contained" onClick={handleOpenDialog}>Cited by:</Button>

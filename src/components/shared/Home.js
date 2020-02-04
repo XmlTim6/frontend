@@ -7,6 +7,7 @@ import history from '../../helpers/history';
 import BasicSearch from './BasicSearch';
 import AdvancedSearch from './AdvancedSearch';
 import SearchItem from './SearchItem';
+import { PaperService } from '../../services/PaperService';
 
 const Home = () => {
 
@@ -19,23 +20,16 @@ const Home = () => {
     }
 
     const basicSearch = term => {
-        console.log(term)
+        PaperService.basicSearch(term)
+            .then(response => console.log(response.data))
     }
 
     const advancedSearch = (author, id, title, keywords) => {
-        console.log(author, id, title, keywords)
+        PaperService.advancedSearch(author, id, title, keywords, 'json')
+            .then(response => console.log(response.data))
     }
 
-    const [papers, setPapers] = useState([{
-        id: '1234567890',
-        title: 'TITLE 1',
-        authors: ['AUTHOR1 AAA', 'AUTHOR2 BBB'],
-        received: '22-01-2020',
-        revised: '23-01-2020',
-        accepted: '24-01-2020',
-        keywords: ['math', 'science', 'reee'],
-        link: '/details/123465678/1/paper.xml'
-    }])
+    const [papers, setPapers] = useState([])
 
     return (
         <Container>

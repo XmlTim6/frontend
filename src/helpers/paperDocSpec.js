@@ -295,12 +295,12 @@ export const paperDocSpec = {
                 {
                     caption: "Add <section>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<section id="" title="" level="" ></section>',
+                    actionParameter: '<section title="" level="" ></section>',
                 },
                 {
                     caption: "Add <quote>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<quote id="" attributed_to="" source="" reference_to=""></quote>',
+                    actionParameter: '<quote attributed_to="" source="" reference_to=""></quote>',
                 },
                 {
                     caption: "Delete element",
@@ -318,7 +318,7 @@ export const paperDocSpec = {
                 {
                     caption: "Add <mention>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<mention id=""><authors></authors><work><year_published></year_published><title></title><edition></edition><city></city><publisher></publisher><numbers></numbers></work></mention>',
+                    actionParameter: '<mention><authors></authors><work><year_published></year_published><title></title><edition></edition><city></city><publisher></publisher><numbers></numbers></work></mention>',
                 },
                 {
                     caption: "Delete element",
@@ -347,9 +347,6 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                'id': {
-                    asker: Xonomy.askString,
-                },
                 'location': {
                     asker: Xonomy.askString,
                     menu: [{
@@ -391,7 +388,7 @@ export const paperDocSpec = {
                 {
                     caption: "Add <mention>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<mention id=""><authors></authors><work><year_published></year_published><title></title><edition></edition><city></city><publisher></publisher><numbers></numbers></work></mention>',
+                    actionParameter: '<mention><authors></authors><work><year_published></year_published><title></title><edition></edition><city></city><publisher></publisher><numbers></numbers></work></mention>',
                 },
                 {
                     caption: "Delete element",
@@ -412,9 +409,6 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                'id': {
-                    asker: Xonomy.askString,
-                },
                 'attributed_to': {
                     asker: Xonomy.askString
                 },
@@ -433,42 +427,42 @@ export const paperDocSpec = {
                 {
                     caption: "Add <paragraph>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<paragraph id=""></paragraph>',
+                    actionParameter: '<paragraph></paragraph>',
                 },
                 {
                     caption: "Add <image>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<image id="" src=""></image>',
+                    actionParameter: '<image src=""></image>',
                 },
                 {
                     caption: "Add <list>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<list id="" type="unordered"></list>',
+                    actionParameter: '<list type="unordered"></list>',
                 },
                 {
                     caption: "Add <quote>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<quote id="" attributed_to="" source="" reference_to=""></quote>',
+                    actionParameter: '<quote attributed_to="" source="" reference_to=""></quote>',
                 },
                 {
                     caption: "Add <section>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<section id="" title="" level="" ></section>',
+                    actionParameter: '<section title="" level="" ></section>',
                 },
                 {
                     caption: "Add <code>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<code id=""></code>',
+                    actionParameter: '<code></code>',
                 },
                 {
                     caption: "Add <formula>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<formula id=""></formula>',
+                    actionParameter: '<formula></formula>',
                 },
                 {
                     caption: "Add <table>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<table id=""></table>',
+                    actionParameter: '<table></table>',
                 },
                 {
                     caption: "Delete element",
@@ -476,9 +470,6 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                'id': {
-                    asker: Xonomy.askString,
-                },
                 'title': {
                     asker: Xonomy.askString,
                 },
@@ -508,9 +499,6 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                'id': {
-                    asker: Xonomy.askString,
-                },
                 ...rdfAttr
             }
         },
@@ -553,9 +541,6 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                'id': {
-                    asker: Xonomy.askString,
-                },
                 'src': {
                     asker: Xonomy.askString
                 },
@@ -577,10 +562,7 @@ export const paperDocSpec = {
                     action: Xonomy.deleteElement
                 }
             ],
-            attributes: {
-                'id': {
-                    asker: Xonomy.askString,
-                },
+            attributes: {               
                 ...rdfAttr
             }
         },
@@ -593,9 +575,6 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                'id': {
-                    asker: Xonomy.askString,
-                },
                 ...rdfAttr
             }
         },
@@ -613,9 +592,6 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                'id': {
-                    asker: Xonomy.askString,
-                },
                 'type': {
                     asker: Xonomy.askPicklist,
                     askerParameter: [
@@ -649,9 +625,6 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                'id': {
-                    asker: Xonomy.askString,
-                },
                 ...rdfAttr
             }
         },
@@ -689,7 +662,7 @@ export const paperDocSpec = {
                 {
                     caption: "Add <paragraph>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<paragraph id=""></paragraph>',
+                    actionParameter: '<paragraph></paragraph>',
                 },
                 {
                     caption: "Delete element",

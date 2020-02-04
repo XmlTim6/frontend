@@ -2,7 +2,7 @@ import React from 'react';
 import { Dialog, DialogTitle, DialogContent, Select, InputLabel, MenuItem, makeStyles, FormControl, Button, DialogActions } from '@material-ui/core';
 
 const EditorDialog = (props) => {
-    const { open, onClose, authors, handleSubmit, userId } = props
+    const { open, onClose, authors, handleSubmit, userId, recommended } = props
 
     const [ids, setIds] = React.useState([]);
 
@@ -43,7 +43,7 @@ const EditorDialog = (props) => {
                             getContentAnchorEl: null
                         }}
                     >
-                        {authors.filter(a => a.id !== userId).map(a => (
+                        {recommended.filter(a => a.id !== userId).map(a => (
                             <MenuItem key={a.id} value={a.id}>
                                 {`${a.name} ${a.surname}`}
                             </MenuItem>

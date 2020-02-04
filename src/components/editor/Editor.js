@@ -4,7 +4,6 @@ import { Container, Typography, makeStyles } from '@material-ui/core';
 import { SubmissionService } from '../../services/SubmissionService';
 import SubmissionItemEditor from './SubmissionItemEditor';
 import { UserService } from '../../services/UserService';
-import EditorDialog from '../shared/EditorDialog';
 import ReviewerDialog from '../shared/ReviewerDialog';
 
 const Editor = () => {
@@ -14,6 +13,8 @@ const Editor = () => {
         authors: [],
         editors: []
     })
+
+    const [recommended, setRecommended] = useState([])
 
     const getSubmissions = () => {
         SubmissionService.getAllSubmissions()
@@ -35,21 +36,11 @@ const Editor = () => {
         getAllUsers();
     }, [])
 
-    const [openEditor, setOpenEditor] = useState(false);
     const [submissionId, setSubmissionId] = useState('');
-    const openEditorDialog = (submissionId) => {
-        setSubmissionId(submissionId);
-        setOpenEditor(true);
-    }
 
-    const closeEditorDialog = () => {
-        setOpenEditor(false);
-    };
-
-    const handleSubmitEditor = (editorId) => {
-        SubmissionService.setEditor(submissionId, editorId)
+    const handleSubmitEditor = (subId) => {
+        SubmissionService.setEditor(subId, UserService.getCurrentUser().sub)
             .then(() => {
-                closeEditorDialog();
                 getSubmissions();
             })
     }
@@ -79,9 +70,9 @@ const Editor = () => {
             .then(() => {
                 getSubmissions();
             },
-            error => {
-                console.log(error.response)
-            })
+                error => {
+                    console.log(error.response)
+                })
     }
 
     const classes = useStyles();
@@ -98,24 +89,20 @@ const Editor = () => {
                         submission={s}
                         key={s.id}
                         users={users}
-                        openEditorDialog={openEditorDialog}
                         openAuthorDialog={openAuthorDialog}
                         setStatus={setStatus}
+                        setEditor={handleSubmitEditor}
                     />
                 ))}
             </div>
-            <EditorDialog
-                editors={users.editors}
-                open={openEditor}
-                onClose={closeEditorDialog}
-                handleSubmit={handleSubmitEditor}
-            />
             <ReviewerDialog
                 authors={users.authors}
                 open={openAuthor}
                 onClose={closeAuthorDialog}
                 handleSubmit={handleSubmitAuthor}
-                userId={userId} />
+                userId={userId}
+                recommended={recommended}
+            />
         </Container>
     )
 }

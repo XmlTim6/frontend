@@ -9,7 +9,7 @@ import { coverDocSpec } from '../../helpers/coverDocSpec';
 const AddCoverLetter = () => {
     let { submissionId } = useParams();
 
-    const [xml, setXml] = useState('<cover_letter></cover_letter>');
+    const [xml, setXml] = useState('<cover_letter xmlns="XML_tim6"></cover_letter>');
     const [text, setText] = useState({
         error: '',
         success: ''
@@ -20,7 +20,7 @@ const AddCoverLetter = () => {
             error: '',
             success: ''
         });
-        const xmlString = window.Xonomy.harvest();
+        const xmlString = window.Xonomy.harvest().replace(/xml:space='preserve'/g, "");
         setXml(xmlString);
         CoverLetterService.createCoverLetter(submissionId, xmlString)
             .then(() => {
@@ -28,7 +28,7 @@ const AddCoverLetter = () => {
                     success: 'Succesful upload',
                     error: ''
                 })
-                setXml('<cover_letter></cover_letter>');
+                setXml('<cover_letter xmlns="XML_tim6"></cover_letter>');
             },
                 () => {
                     setText({

@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import { paperDocSpec } from '../../helpers/paperDocSpec';
 
 const AddRevision = () => {
-    const [xml, setXml] = useState('<paper></paper>');
+    const [xml, setXml] = useState('<paper xmlns="XML_tim6" title=""></paper>');
     const [text, setText] = useState({
         error: '',
         success: ''
@@ -20,7 +20,7 @@ const AddRevision = () => {
             error: '',
             success: ''
         });
-        const xmlString = window.Xonomy.harvest();
+        const xmlString = window.Xonomy.harvest().replace(/xml:space='preserve'/g, "");
         setXml(xmlString);
         SubmissionService.addRevision(submissionId, xmlString)
             .then(() => {
@@ -28,7 +28,7 @@ const AddRevision = () => {
                     success: 'Succesful upload',
                     error: ''
                 })
-                setXml('<paper></paper>');
+                setXml('<paper xmlns="XML_tim6" title=""></paper>');
             },
                 () => {
                     setText({
