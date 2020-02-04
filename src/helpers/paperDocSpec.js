@@ -433,6 +433,7 @@ export const paperDocSpec = {
             ]
         },
         'quote': {
+            hasText: true,
             menu: [
                 {
                     caption: "Add attribute @id",
@@ -466,6 +467,10 @@ export const paperDocSpec = {
                         return jsElement.hasAttribute("reference_to");
                     }
                 },
+                {
+                    caption: "Delete element",
+                    action: Xonomy.deleteElement
+                }
             ],
             attributes: {
                 'id': {
@@ -563,7 +568,30 @@ export const paperDocSpec = {
                     caption: "Delete element",
                     action: Xonomy.deleteElement
                 }
-            ]
+            ],
+            attributes: {
+                'id': {
+                    asker: Xonomy.askString,
+                    menu: [{
+                        caption: "Delete this @id",
+                        action: Xonomy.deleteAttribute
+                    }]
+                },
+                'title': {
+                    asker: Xonomy.askString,
+                    menu: [{
+                        caption: "Delete this @title",
+                        action: Xonomy.deleteAttribute
+                    }]
+                },
+                'title': {
+                    asker: Xonomy.askString,
+                    menu: [{
+                        caption: "Delete this @title",
+                        action: Xonomy.deleteAttribute
+                    }]
+                },
+            }
         },
         'paragraph': {
             hasText: true,
