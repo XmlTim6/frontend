@@ -4,7 +4,7 @@ import Header from '../shared/Header';
 import Upload from './Upload';
 import { CoverLetterService } from '../../services/CoverLetterService';
 import { useParams } from 'react-router-dom';
-
+import { coverDocSpec } from '../../helpers/coverDocSpec';
 
 const AddCoverLetter = () => {
     let { submissionId } = useParams();
@@ -49,7 +49,7 @@ const AddCoverLetter = () => {
                     {text.success}
                 </span>
             </Container>
-            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Upload cover letter"} />      
+            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Upload cover letter"} docSpec={coverDocSpec} />
         </Container>
     )
 }

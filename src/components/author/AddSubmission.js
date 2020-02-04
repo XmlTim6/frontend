@@ -3,21 +3,21 @@ import { Container, makeStyles } from '@material-ui/core';
 import Header from '../shared/Header';
 import Upload from './Upload';
 import { SubmissionService } from '../../services/SubmissionService';
-
+import { paperDocSpec } from '../../helpers/paperDocSpec';
 
 const AddSubmission = () => {
-    const [xml, setXml] = useState('<paper></paper>');
+    const [xml, setXml] = useState('<paper xmlns="XML_tim6"></paper>');
     const [text, setText] = useState({
         error: '',
         success: ''
     })
-
+    
     const handleSubmitXml = () => {
         setText({
             error: '',
             success: ''
         });
-        const xmlString = window.Xonomy.harvest();
+        const xmlString = window.Xonomy.harvest().replace(/xml:space='preserve'/g, "")
         setXml(xmlString);
         SubmissionService.addSubmission(xmlString)
             .then(() => {
@@ -25,7 +25,7 @@ const AddSubmission = () => {
                     success: 'Succesful upload',
                     error: ''
                 })
-                setXml('<paper></paper>');
+                setXml('<paper xmlns="XML_tim6"></paper>');
             },
                 () => {
                     setText({
@@ -46,7 +46,7 @@ const AddSubmission = () => {
                     {text.success}
                 </span>
             </Container>
-            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Upload submission"} />      
+            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Upload submission"} docSpec={paperDocSpec}/>      
         </Container>
     )
 }

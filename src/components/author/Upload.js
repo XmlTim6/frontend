@@ -8,7 +8,7 @@ const Upload = (props) => {
     const [open, setOpen] = useState(false);
     const [error, setError] = useState('');
 
-    const { xml, setXml, handleSubmit, title } = props;
+    const { xml, setXml, handleSubmit, title, docSpec } = props;
 
     const handleOpenEditor = () => {
         if (display === 'none') {
@@ -58,7 +58,7 @@ const Upload = (props) => {
                     </span>
                 }
                 <div style={{ display: display }}>
-                    <XmlEdit xml={xml} setError={() => setError('Error copying xml')} />
+                    <XmlEdit xml={xml} setError={() => setError('Error copying xml')} docSpec={docSpec}/>
                 </div>
                 <div className={classes.submit}>
                     <Button color="primary" variant="contained" onClick={handleSubmit}>Upload</Button>

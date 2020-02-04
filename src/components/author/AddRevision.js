@@ -4,7 +4,7 @@ import Header from '../shared/Header';
 import Upload from './Upload';
 import { SubmissionService } from '../../services/SubmissionService';
 import { useParams } from 'react-router-dom';
-
+import { paperDocSpec } from '../../helpers/paperDocSpec';
 
 const AddRevision = () => {
     const [xml, setXml] = useState('<paper></paper>');
@@ -49,7 +49,7 @@ const AddRevision = () => {
                     {text.success}
                 </span>
             </Container>
-            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Add new revision"} />      
+            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Add new revision"} docSpec={paperDocSpec}/>      
         </Container>
     )
 }

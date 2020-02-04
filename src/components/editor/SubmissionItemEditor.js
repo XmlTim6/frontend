@@ -72,17 +72,17 @@ const SumbissionItemEditor = (props) => {
                     </div>
                 </div>
                 <div className={classes.buttons}>
+                    <Button
+                        className={classes.wideButton}
+                        color="primary"
+                        variant="contained"
+                        onClick={handleOpenDialog}
+                    >
+                        SEE PAPERS
+                        </Button>
                     {
                         !checkClosed(submission) &&
                         <span>
-                            <Button
-                                className={classes.wideButton}
-                                color="primary"
-                                variant="contained"
-                                onClick={handleOpenDialog}
-                            >
-                                SEE PAPERS
-                        </Button>
                             <Button
                                 className={classes.wideButton}
                                 color="primary"

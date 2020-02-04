@@ -19,6 +19,7 @@ const TextDialog = (props) => {
                     required
                     fullWidth
                     multiline
+                    value={text}
                     onChange={(e) => setText(e.target.value)}
                 />
                 <Button color="primary" variant="contained" onClick={() => handleSubmit(text)}>Copy</Button>
