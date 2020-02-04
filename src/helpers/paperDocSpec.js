@@ -5,17 +5,9 @@ export const paperDocSpec = {
         'paper': {
             menu: [
                 {
-                    caption: "Add attribute @title",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "title", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("title");
-                    }
-                },
-                {
                     caption: "Add <authors>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<authors></authors>',
+                    actionParameter: '<authors><author email=""><personal><first_name></first_name><middle_name></middle_name><last_name></last_name></personal></author></authors>',
                     hideIf: function (jsElement) {
                         return jsElement.hasChildElement("authors");
                     }
@@ -23,7 +15,7 @@ export const paperDocSpec = {
                 {
                     caption: "Add <abstract>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<abstract></abstract>',
+                    actionParameter: '<abstract paper_type="conceptual"><purpose></purpose><methodology></methodology><findings></findings><research_implications></research_implications><practical_implications></practical_implications><orginality></orginality><keywords><keyword></keyword></keywords></abstract>',
                     hideIf: function (jsElement) {
                         return jsElement.hasChildElement("abstract");
                     }
@@ -57,10 +49,6 @@ export const paperDocSpec = {
             attributes: {
                 "title": {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @title",
-                        action: Xonomy.deleteAttribute
-                    }]
                 }
             }
         },
@@ -71,7 +59,7 @@ export const paperDocSpec = {
                 {
                     caption: "Add <author>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<author><personal><first_name></first_name><middle_name></middle_name><last_name></last_name></personal><institution><name></name><city></city><country></country></institution></author>',
+                    actionParameter: '<author email=""><personal><first_name></first_name><middle_name></middle_name><last_name></last_name></personal></author>',
                     hideIf: function (jsElement) {
                         return jsElement.parent().name === 'mention';
                     }
@@ -91,40 +79,70 @@ export const paperDocSpec = {
             ]
         },
         'author': {
-            menu: [{
-                caption: "Add attribute @email",
-                action: Xonomy.newAttribute,
-                actionParameter: { name: "email", value: '' },
-                hideIf: function (jsElement) {
-                    return jsElement.hasAttribute("email");
+            menu: [
+                {
+                    caption: "Add <institution>",
+                    action: Xonomy.newElementChild,
+                    actionParameter: '<institution><name></name><city></city><country></country></institution>',
+                    hideIf: function (jsElement) {
+                        return jsElement.hasChildElement("institution");
+                    }
+                },
+                {
+                    caption: "Delete element",
+                    action: Xonomy.deleteElement,
+                    hideIf: function (jsElement) {
+                        return jsElement.parent().getChildElements("author").length === 1;
+                    }
                 }
-            },
-            {
-                caption: "Delete element",
-                action: Xonomy.deleteElement
-            }
             ],
             attributes: {
                 "email": {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @email",
-                        action: Xonomy.deleteAttribute
-                    }]
                 }
             }
         },
+        'personal': {
+            menu: [
+                {
+                    caption: "Add <middle_name>",
+                    action: Xonomy.newElementChild,
+                    actionParameter: '<middle_name></middle_name>',
+                    hideIf: function (jsElement) {
+                        return jsElement.hasChildElement("middle_name");
+                    }
+                },
+            ]
+        },
+        'institution': {
+            menu: [
+                {
+                    caption: "Delete element",
+                    action: Xonomy.deleteElement
+                }
+            ]
+        },
         'first_name': {
+            mustBeBefore: ['middle_name'],
             oneliner: true,
             hasText: true,
             asker: Xonomy.askString,
         },
         'middle_name': {
+            mustBeBefore: ['last_name'],
+            mustBeAfter: ['first_name'],
             oneliner: true,
             hasText: true,
             asker: Xonomy.askString,
+            menu: [
+                {
+                    caption: "Delete element",
+                    action: Xonomy.deleteElement
+                }
+            ]
         },
         'last_name': {
+            mustBeAfter: ['middle_name'],
             oneliner: true,
             hasText: true,
             asker: Xonomy.askString,
@@ -154,70 +172,6 @@ export const paperDocSpec = {
             mustBeBefore: ['content'],
             menu: [
                 {
-                    caption: "Add attribute @paper_type",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "paper_type", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("paper_type");
-                    }
-                },
-                {
-                    caption: "Add <purpose>",
-                    action: Xonomy.newElementChild,
-                    actionParameter: '<purpose></purpose>',
-                    hideIf: function (jsElement) {
-                        return jsElement.hasChildElement("purpose");
-                    }
-                },
-                {
-                    caption: "Add <methodology>",
-                    action: Xonomy.newElementChild,
-                    actionParameter: '<methodology></methodology>',
-                    hideIf: function (jsElement) {
-                        return jsElement.hasChildElement("methodology");
-                    }
-                },
-                {
-                    caption: "Add <findings>",
-                    action: Xonomy.newElementChild,
-                    actionParameter: '<findings></findings>',
-                    hideIf: function (jsElement) {
-                        return jsElement.hasChildElement("findings");
-                    }
-                },
-                {
-                    caption: "Add <research_implications>",
-                    action: Xonomy.newElementChild,
-                    actionParameter: '<research_implications></research_implications>',
-                    hideIf: function (jsElement) {
-                        return jsElement.hasChildElement("research_implications");
-                    }
-                },
-                {
-                    caption: "Add <practical_implcations>",
-                    action: Xonomy.newElementChild,
-                    actionParameter: '<practical_implcations></practical_implcations>',
-                    hideIf: function (jsElement) {
-                        return jsElement.hasChildElement("practical_implcations");
-                    }
-                },
-                {
-                    caption: "Add <orginality>",
-                    action: Xonomy.newElementChild,
-                    actionParameter: '<orginality></orginality>',
-                    hideIf: function (jsElement) {
-                        return jsElement.hasChildElement("orginality");
-                    }
-                },
-                {
-                    caption: "Add <keywords>",
-                    action: Xonomy.newElementChild,
-                    actionParameter: '<keywords></keywords>',
-                    hideIf: function (jsElement) {
-                        return jsElement.hasChildElement("keywords");
-                    }
-                },
-                {
                     caption: "Delete element",
                     action: Xonomy.deleteElement
                 }
@@ -228,78 +182,32 @@ export const paperDocSpec = {
                     askerParameter: [
                         'conceptual', 'empirical'
                     ],
-                    menu: [{
-                        caption: "Delete this @paper_type",
-                        action: Xonomy.deleteAttribute
-                    }]
                 }
             }
         },
         'purpose': {
-            mustBeBefore: ['methodology'],
             hasText: true,
             asker: Xonomy.askString,
-            menu: [
-                {
-                    caption: "Delete element",
-                    action: Xonomy.deleteElement
-                }
-            ],
         },
         'methodology': {
-            mustBeBefore: ['findings'],
             hasText: true,
             asker: Xonomy.askString,
-            menu: [
-                {
-                    caption: "Delete element",
-                    action: Xonomy.deleteElement
-                }
-            ],
         },
         'findings': {
-            mustBeBefore: ['research_implications'],
             hasText: true,
             asker: Xonomy.askString,
-            menu: [
-                {
-                    caption: "Delete element",
-                    action: Xonomy.deleteElement
-                }
-            ],
         },
         'research_implications': {
-            mustBeBefore: ['practical_implcations'],
             hasText: true,
             asker: Xonomy.askString,
-            menu: [
-                {
-                    caption: "Delete element",
-                    action: Xonomy.deleteElement
-                }
-            ],
         },
-        'practical_implcations': {
-            mustBeBefore: ['orginality'],
+        'practical_implications': {
             hasText: true,
             asker: Xonomy.askString,
-            menu: [
-                {
-                    caption: "Delete element",
-                    action: Xonomy.deleteElement
-                }
-            ],
         },
         'orginality': {
-            mustBeBefore: ['keywords'],
             hasText: true,
             asker: Xonomy.askString,
-            menu: [
-                {
-                    caption: "Delete element",
-                    action: Xonomy.deleteElement
-                }
-            ],
         },
         'keywords': {
             menu: [
@@ -308,10 +216,6 @@ export const paperDocSpec = {
                     action: Xonomy.newElementChild,
                     actionParameter: '<keyword></keyword>'
                 },
-                {
-                    caption: "Delete element",
-                    action: Xonomy.deleteElement
-                }
             ]
         },
         'keyword': {
@@ -326,12 +230,12 @@ export const paperDocSpec = {
                 {
                     caption: "Add <section>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<section></section>',
+                    actionParameter: '<section id="" title="" level="" ></section>',
                 },
                 {
                     caption: "Add <quote>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<quote></quote>',
+                    actionParameter: '<quote id="" attributed_to="" source="" reference_to=""></quote>',
                 },
                 {
                     caption: "Delete element",
@@ -345,7 +249,7 @@ export const paperDocSpec = {
                 {
                     caption: "Add <mention>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<mention><authors></authors><work><year_published></year_published><title></title><edition></edition><city></city><publisher></publisher><numbers></numbers></work></mention>',
+                    actionParameter: '<mention id=""><authors></authors><work><year_published></year_published><title></title><edition></edition><city></city><publisher></publisher><numbers></numbers></work></mention>',
                 },
                 {
                     caption: "Delete element",
@@ -356,14 +260,6 @@ export const paperDocSpec = {
         'mention': {
             mustBeAfter: ['content'],
             menu: [
-                {
-                    caption: "Add attribute @id",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "id", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("id");
-                    }
-                },
                 {
                     caption: "Add attribute @location",
                     action: Xonomy.newAttribute,
@@ -380,10 +276,6 @@ export const paperDocSpec = {
             attributes: {
                 'id': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @id",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
                 'location': {
                     asker: Xonomy.askString,
@@ -424,7 +316,7 @@ export const paperDocSpec = {
                 {
                     caption: "Add <mention>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<mention><authors></authors><work><year_published></year_published><title></title><edition></edition><city></city><publisher></publisher><numbers></numbers></work></mention>',
+                    actionParameter: '<mention id=""><authors></authors><work><year_published></year_published><title></title><edition></edition><city></city><publisher></publisher><numbers></numbers></work></mention>',
                 },
                 {
                     caption: "Delete element",
@@ -436,38 +328,6 @@ export const paperDocSpec = {
             hasText: true,
             menu: [
                 {
-                    caption: "Add attribute @id",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "id", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("id");
-                    }
-                },
-                {
-                    caption: "Add attribute @attributed_to",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "attributed_to", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("attributed_to");
-                    }
-                },
-                {
-                    caption: "Add attribute @source",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "source", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("source");
-                    }
-                },
-                {
-                    caption: "Add attribute @reference_to",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "reference_to", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("reference_to");
-                    }
-                },
-                {
                     caption: "Delete element",
                     action: Xonomy.deleteElement
                 }
@@ -475,31 +335,15 @@ export const paperDocSpec = {
             attributes: {
                 'id': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @id",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
                 'attributed_to': {
-                    asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @attributed_to",
-                        action: Xonomy.deleteAttribute
-                    }]
+                    asker: Xonomy.askString
                 },
                 'source': {
-                    asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @source",
-                        action: Xonomy.deleteAttribute
-                    }]
+                    asker: Xonomy.askString
                 },
                 'reference_to': {
-                    asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @reference_to",
-                        action: Xonomy.deleteAttribute
-                    }]
+                    asker: Xonomy.askString
                 },
             }
         },
@@ -508,61 +352,42 @@ export const paperDocSpec = {
                 {
                     caption: "Add <paragraph>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<paragraph></paragraph>',
+                    actionParameter: '<paragraph id=""></paragraph>',
                 },
                 {
                     caption: "Add <image>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<image></image>',
+                    actionParameter: '<image id="" src=""></image>',
                 },
                 {
                     caption: "Add <list>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<list></list>',
+                    actionParameter: '<list id="" type="unordered"></list>',
                 },
                 {
                     caption: "Add <quote>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<quote></quote>',
+                    actionParameter: '<quote id="" attributed_to="" source="" reference_to=""></quote>',
                 },
                 {
                     caption: "Add <section>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<section></section>',
+                    actionParameter: '<section id="" title="" level="" ></section>',
                 },
                 {
                     caption: "Add <code>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<code></code>',
+                    actionParameter: '<code id=""></code>',
+                },
+                {
+                    caption: "Add <formula>",
+                    action: Xonomy.newElementChild,
+                    actionParameter: '<formula id=""></formula>',
                 },
                 {
                     caption: "Add <table>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<table></table>',
-                },
-                {
-                    caption: "Add attribute @id",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "id", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("id");
-                    }
-                },
-                {
-                    caption: "Add attribute @title",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "title", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("title");
-                    }
-                },
-                {
-                    caption: "Add attribute @level",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "level", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("level");
-                    }
+                    actionParameter: '<table id=""></table>',
                 },
                 {
                     caption: "Delete element",
@@ -572,25 +397,13 @@ export const paperDocSpec = {
             attributes: {
                 'id': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @id",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
                 'title': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @title",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
-                'title': {
+                'level': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @title",
-                        action: Xonomy.deleteAttribute
-                    }]
-                },
+                }
             }
         },
         'paragraph': {
@@ -607,14 +420,6 @@ export const paperDocSpec = {
                     actionParameter: '<italic></italic>',
                 },
                 {
-                    caption: "Add attribute @id",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "id", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("id");
-                    }
-                },
-                {
                     caption: "Delete element",
                     action: Xonomy.deleteElement
                 }
@@ -622,10 +427,6 @@ export const paperDocSpec = {
             attributes: {
                 'id': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @id",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
             }
         },
@@ -654,22 +455,6 @@ export const paperDocSpec = {
         'image': {
             menu: [
                 {
-                    caption: "Add attribute @id",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "id", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("id");
-                    }
-                },
-                {
-                    caption: "Add attribute @src",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "src", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("src");
-                    }
-                },
-                {
                     caption: "Add attribute @title",
                     action: Xonomy.newAttribute,
                     actionParameter: { name: "title", value: '' },
@@ -684,18 +469,10 @@ export const paperDocSpec = {
             ],
             attributes: {
                 'id': {
-                    asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @id",
-                        action: Xonomy.deleteAttribute
-                    }]
+                    asker: Xonomy.askString,                    
                 },
                 'src': {
-                    asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @src",
-                        action: Xonomy.deleteAttribute
-                    }]
+                    asker: Xonomy.askString
                 },
                 'title': {
                     asker: Xonomy.askString,
@@ -709,14 +486,6 @@ export const paperDocSpec = {
         'code': {
             menu: [
                 {
-                    caption: "Add attribute @id",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "id", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("id");
-                    }
-                },
-                {
                     caption: "Delete element",
                     action: Xonomy.deleteElement
                 }
@@ -724,24 +493,12 @@ export const paperDocSpec = {
             attributes: {
                 'id': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @id",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
             }
         },
         'formula': {
             menu: [
                 {
-                    caption: "Add attribute @id",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "id", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("id");
-                    }
-                },
-                {
                     caption: "Delete element",
                     action: Xonomy.deleteElement
                 }
@@ -749,23 +506,11 @@ export const paperDocSpec = {
             attributes: {
                 'id': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @id",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
             }
         },
         'list': {
             menu: [
-                {
-                    caption: "Add attribute @id",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "id", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("id");
-                    },
-                },
                 {
                     caption: "Add <list_item>",
                     action: Xonomy.newElementChild,
@@ -779,33 +524,17 @@ export const paperDocSpec = {
             attributes: {
                 'id': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @id",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
                 'type': {
                     asker: Xonomy.askPicklist,
                     askerParameter: [
                         'ordered', 'unordered'
                     ],
-                    menu: [{
-                        caption: "Delete this @id",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
             }
         },
         'table': {
             menu: [
-                {
-                    caption: "Add attribute @id",
-                    action: Xonomy.newAttribute,
-                    actionParameter: { name: "id", value: '' },
-                    hideIf: function (jsElement) {
-                        return jsElement.hasAttribute("id");
-                    },
-                },
                 {
                     caption: "Add <row>",
                     action: Xonomy.newElementChild,
@@ -819,15 +548,11 @@ export const paperDocSpec = {
             attributes: {
                 'id': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @id",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
             }
         },
         'row': {
-            menu: [                
+            menu: [
                 {
                     caption: "Add <cell>",
                     action: Xonomy.newElementChild,
@@ -839,7 +564,7 @@ export const paperDocSpec = {
                 }
             ]
         },
-        'cell' : {
+        'cell': {
             hasText: true,
             menu: [
                 {
@@ -861,7 +586,7 @@ export const paperDocSpec = {
                 {
                     caption: "Add <paragraph>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<paragraph></paragraph>',
+                    actionParameter: '<paragraph id=""></paragraph>',
                 },
                 {
                     caption: "Delete element",

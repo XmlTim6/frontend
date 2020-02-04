@@ -6,7 +6,7 @@ import { SubmissionService } from '../../services/SubmissionService';
 import { paperDocSpec } from '../../helpers/paperDocSpec';
 
 const AddSubmission = () => {
-    const [xml, setXml] = useState('<paper xmlns="XML_tim6"></paper>');
+    const [xml, setXml] = useState('<paper xmlns="XML_tim6" title=""></paper>');
     const [text, setText] = useState({
         error: '',
         success: ''
@@ -25,7 +25,7 @@ const AddSubmission = () => {
                     success: 'Succesful upload',
                     error: ''
                 })
-                setXml('<paper xmlns="XML_tim6"></paper>');
+                setXml('<paper xmlns="XML_tim6" title=""></paper>');
             },
                 () => {
                     setText({
