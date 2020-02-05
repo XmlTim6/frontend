@@ -38,6 +38,15 @@ const Editor = () => {
 
     const [submissionId, setSubmissionId] = useState('');
 
+    useEffect(() => {
+        if(submissionId.length === 0){
+            return
+        }
+        SubmissionService.getRecommended(submissionId)
+            .then(response => setRecommended(response.data))
+    }, [submissionId])
+
+
     const handleSubmitEditor = (subId) => {
         SubmissionService.setEditor(subId, UserService.getCurrentUser().sub)
             .then(() => {

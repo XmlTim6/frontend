@@ -14,7 +14,8 @@ export const SubmissionService = {
     addReview,
     addReviewForm,
     addRevision,
-    declineReview
+    declineReview,
+    getRecommended
 }
 
 function getSumbissionsOfAuthor() {
@@ -103,4 +104,7 @@ function declineReview(submissionId) {
     return axios.delete(`http://localhost:8043/api/submission/${submissionId}/decline_reviewing`)
 }
 
+function getRecommended(submissionId) {
+    return axios.get(`http://localhost:8043/api/users/recommended-reviewers?submissionId=${submissionId}`)
+}
 

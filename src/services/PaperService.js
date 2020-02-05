@@ -4,7 +4,8 @@ import { getToken } from './TokenService';
 export const PaperService = {
     getPaper,
     basicSearch,
-    advancedSearch
+    advancedSearch,
+    getCitedBy
 }
 
 function getPaper(api, id, revision, document, format) {
@@ -17,4 +18,8 @@ function basicSearch(term) {
 
 function advancedSearch(author, id, title, keywords, type) {
     return axios.get(`http://localhost:8043/api/paper/advancedSearch?paperId=${id}&paperTitle=${title}&paperAuthor=${author}&keywords=${keywords}&type=${type}`);
+}
+
+function getCitedBy(link) {
+    return axios.get(`http://localhost:8043/api/paper/citedBy?paperLocation=${link}`);
 }

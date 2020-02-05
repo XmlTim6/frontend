@@ -21,12 +21,45 @@ const Home = () => {
 
     const basicSearch = term => {
         PaperService.basicSearch(term)
-            .then(response => console.log(response.data))
+            .then(response => {
+                const array = []
+                response.data.forEach(element => {
+                    array.push(JSON.parse(element.replace(/'/g, '"').replace(/, ]/g, ']')))
+                });
+                setPapers(array)
+            })
     }
 
     const advancedSearch = (author, id, title, keywords) => {
         PaperService.advancedSearch(author, id, title, keywords, 'json')
-            .then(response => console.log(response.data))
+            .then(response => setPapers(formatData(response.data)))
+    }
+
+    const formatData = (data) => {
+        const array = data.results.bindings
+        const formatted = []
+        for (let i = 0; i < array.length; i++) {
+            const element = array[i];
+            const index = formatted.findIndex(el => el.link === element.paper.value.replace('http://localhost:3000/', ''))
+            if (index === -1) {
+                formatted.push({
+                    link: element.paper.value.replace('http://localhost:3000/', ''),
+                    title: element.title.value,
+                    received: element.received.value,
+                    accepted: element.accepted.value,
+                    authors: [element.author.value],
+                    keywords: [element.keyword.value]
+                })
+            } else {
+                if (!formatted[index].authors.includes(element.author.value)) {
+                    formatted[index].authors.push(element.author.value)
+                }
+                if (!formatted[index].keywords.includes(element.keyword.value)) {
+                    formatted[index].keywords.push(element.keyword.value)
+                }
+            }
+        }
+        return formatted;
     }
 
     const [papers, setPapers] = useState([])
@@ -43,7 +76,7 @@ const Home = () => {
                 </Grid>
             </Grid>
             {
-                papers.map(paper => <SearchItem paper={paper} key={paper.id} />)
+                papers.map(paper => <SearchItem paper={paper} key={paper.link} />)
             }
         </Container>
     );

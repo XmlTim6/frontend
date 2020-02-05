@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Paper, makeStyles, Typography, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import PaperDialog from './PaperDialog';
+import { PaperService } from '../../services/PaperService';
 
 const SearchItem = (props) => {
     const { paper } = props
@@ -18,6 +19,17 @@ const SearchItem = (props) => {
     const handleCloseDialog = () => {
         setOpen(false)
     }
+
+    useEffect(() => {
+        PaperService.getCitedBy(paper.link)
+            .then(response => {
+                const array = []
+                response.data.results.bindings.forEach(element => {
+                    if (!array.includes(element.paper.value.replace('http://localhost:3000', ''))) { array.push(element.paper.value.replace('http://localhost:3000', '')) }
+                });
+                setLinks(array)
+            })
+    }, [paper.link])
 
     return (
         <div>
