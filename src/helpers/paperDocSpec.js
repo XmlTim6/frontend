@@ -36,6 +36,57 @@ const rdfAttr = {
     }
 }
 
+function findName(jsElement) {
+    var name = ''
+    if (jsElement.name === 'paper') {
+        return 'paper'
+    }
+    const array = jsElement.parent().getChildElements(jsElement.name)
+    var index = array.findIndex(el => el.htmlID === jsElement.htmlID) + 1
+    if(index === 1){
+        index = ''
+    }
+    name = `${findName(jsElement.parent())}-${jsElement.name}${index}`
+    return name;
+
+}
+
+function addCustomAttribute(htmlID) {
+    var el = document.getElementById(htmlID);
+    var jsElement = Xonomy.harvestElement(el);
+    const value = findName(jsElement)
+    Xonomy.newAttribute(htmlID, { name: 'id', value: value });
+    addId(value)
+}
+
+const addId = (id) => {
+    ids.push(id)
+}
+
+const removeId = (id) => {
+    const index = ids.indexOf(id);
+    ids.splice(index, 1)
+}
+
+const ids = []
+
+const idMenu = {
+    caption: "Add @id",
+    action: addCustomAttribute,
+    hideIf: function (jsElement) {
+        return jsElement.hasAttribute("id");
+    }
+}
+
+const idAttr = {
+    'id': {
+        menu: [{
+            caption: "Delete this @id",
+            action: Xonomy.deleteAttribute
+        }]
+    }
+}
+
 export const paperDocSpec = {
     elements: {
         'paper': {
@@ -92,7 +143,7 @@ export const paperDocSpec = {
         },
         'authors': {
             mustBeAfter: ['paper'],
-            mustBeBefore: ['abstract'],
+            mustBeBefore: ['abstract', 'references', 'citations'],
             menu: [
                 ...rdfMenu,
                 {
@@ -122,6 +173,7 @@ export const paperDocSpec = {
         },
         'author': {
             menu: [
+                idMenu,
                 ...rdfMenu,
                 {
                     caption: "Add <institution>",
@@ -143,7 +195,8 @@ export const paperDocSpec = {
                 "email": {
                     asker: Xonomy.askString,
                 },
-                ...rdfAttr
+                ...rdfAttr,
+                ...idAttr
             }
         },
         'personal': {
@@ -224,6 +277,7 @@ export const paperDocSpec = {
             mustBeBefore: ['content'],
             menu: [
                 ...rdfMenu,
+                idMenu,
                 {
                     caption: "Delete element",
                     action: Xonomy.deleteElement
@@ -236,6 +290,7 @@ export const paperDocSpec = {
                         'conceptual', 'empirical'
                     ],
                 },
+                ...idAttr,
                 ...rdfAttr
             }
         },
@@ -291,6 +346,7 @@ export const paperDocSpec = {
             mustBeAfter: ['abstract'],
             mustBeBefore: ['references', 'citations'],
             menu: [
+                idMenu,
                 ...rdfMenu,
                 {
                     caption: "Add <section>",
@@ -308,7 +364,8 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                ...rdfAttr
+                ...rdfAttr,
+                ...idAttr,
             }
         },
         'references': {
@@ -332,6 +389,7 @@ export const paperDocSpec = {
         'mention': {
             mustBeAfter: ['content'],
             menu: [
+                idMenu,
                 ...rdfMenu,
                 {
                     caption: "Add attribute @location",
@@ -354,6 +412,7 @@ export const paperDocSpec = {
                         action: Xonomy.deleteAttribute
                     }]
                 },
+                ...idAttr,
                 ...rdfAttr
             }
         },
@@ -416,13 +475,15 @@ export const paperDocSpec = {
                     asker: Xonomy.askString
                 },
                 'reference_to': {
-                    asker: Xonomy.askString
+                    asker: Xonomy.askPicklist,
+                    askerParameter: ids
                 },
                 ...rdfAttr
             }
         },
         'section': {
             menu: [
+                idMenu,
                 ...rdfMenu,
                 {
                     caption: "Add <paragraph>",
@@ -476,12 +537,14 @@ export const paperDocSpec = {
                 'level': {
                     asker: Xonomy.askString,
                 },
-                ...rdfAttr
+                ...rdfAttr,
+                ...idAttr,
             }
         },
         'paragraph': {
             hasText: true,
             menu: [
+                idMenu,
                 ...rdfMenu,
                 {
                     caption: "Add <bold>",
@@ -499,7 +562,8 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                ...rdfAttr
+                ...rdfAttr,
+                ...idAttr
             }
         },
         'bold': {
@@ -526,6 +590,7 @@ export const paperDocSpec = {
         },
         'image': {
             menu: [
+                idMenu,
                 ...rdfMenu,
                 {
                     caption: "Add attribute @title",
@@ -551,23 +616,13 @@ export const paperDocSpec = {
                         action: Xonomy.deleteAttribute
                     }]
                 },
-                ...rdfAttr
+                ...rdfAttr,
+                ...idAttr,
             }
         },
         'code': {
             menu: [
-                ...rdfMenu,
-                {
-                    caption: "Delete element",
-                    action: Xonomy.deleteElement
-                }
-            ],
-            attributes: {               
-                ...rdfAttr
-            }
-        },
-        'formula': {
-            menu: [
+                idMenu,
                 ...rdfMenu,
                 {
                     caption: "Delete element",
@@ -575,11 +630,27 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
-                ...rdfAttr
+                ...rdfAttr,
+                ...idAttr,
+            }
+        },
+        'formula': {
+            menu: [
+                idMenu,
+                ...rdfMenu,
+                {
+                    caption: "Delete element",
+                    action: Xonomy.deleteElement
+                }
+            ],
+            attributes: {
+                ...rdfAttr,
+                ...idAttr,
             }
         },
         'list': {
             menu: [
+                idMenu,
                 ...rdfMenu,
                 {
                     caption: "Add <list_item>",
@@ -598,7 +669,8 @@ export const paperDocSpec = {
                         'ordered', 'unordered'
                     ],
                 },
-                ...rdfAttr
+                ...rdfAttr,
+                ...idAttr
             }
         },
         'list_item': {
@@ -613,6 +685,7 @@ export const paperDocSpec = {
         },
         'table': {
             menu: [
+                idMenu,
                 ...rdfMenu,
                 {
                     caption: "Add <row>",
@@ -625,6 +698,7 @@ export const paperDocSpec = {
                 }
             ],
             attributes: {
+                ...idAttr,
                 ...rdfAttr
             }
         },
