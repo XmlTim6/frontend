@@ -37,9 +37,10 @@ export const reviewPaperDocSpec = {
             ],
             attributes: {
                 'id_ref': {
-                    asker: Xonomy.askString,
+                    asker: Xonomy.askString
                 }
             }
         }
     }
 }
+

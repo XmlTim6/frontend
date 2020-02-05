@@ -43,12 +43,11 @@ function findName(jsElement) {
     }
     const array = jsElement.parent().getChildElements(jsElement.name)
     var index = array.findIndex(el => el.htmlID === jsElement.htmlID) + 1
-    if(index === 1){
+    if (index === 1) {
         index = ''
     }
     name = `${findName(jsElement.parent())}-${jsElement.name}${index}`
     return name;
-
 }
 
 function addCustomAttribute(htmlID) {
@@ -56,16 +55,44 @@ function addCustomAttribute(htmlID) {
     var jsElement = Xonomy.harvestElement(el);
     const value = findName(jsElement)
     Xonomy.newAttribute(htmlID, { name: 'id', value: value });
-    addId(value)
+    rescanIds(getRoot(jsElement), value);
 }
 
 const addId = (id) => {
     ids.push(id)
 }
 
-const removeId = (id) => {
-    const index = ids.indexOf(id);
-    ids.splice(index, 1)
+const rescanIds = (jsElement, value) => {
+    ids.length = 0
+    if (value !== null) {
+        ids.push(value)
+    }
+    addIds(jsElement)
+}
+
+const addIds = (jsElement) => {
+    if (jsElement.type === 'text') {
+        return
+    }
+
+    const value = jsElement.getAttributeValue('id', null)
+    if (value !== null) {
+        addId(value)
+    }
+
+    if (jsElement.hasElements()) {
+        jsElement.children.forEach(element => {
+            addIds(element)
+        });
+    }
+
+}
+
+const getRoot = (jsElement) => {
+    if (jsElement.name === 'paper') {
+        return jsElement
+    }
+    return getRoot(jsElement.parent())
 }
 
 const ids = []
@@ -426,12 +453,12 @@ export const paperDocSpec = {
             hasText: true,
             asker: Xonomy.askString,
         },
-        'editor': {
+        'edition': {
             oneliner: true,
             hasText: true,
             asker: Xonomy.askString,
         },
-        'published': {
+        'publisher': {
             oneliner: true,
             hasText: true,
             asker: Xonomy.askString,
