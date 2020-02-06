@@ -4,6 +4,7 @@ export const SubmissionService = {
     getSumbissionsOfAuthor,
     getReviewableOfAuthor,
     getAllSubmissions,
+    getSubmission,
     addSubmission,
     setEditor,
     setReviewers,
@@ -24,6 +25,10 @@ function getSumbissionsOfAuthor() {
 
 function getReviewableOfAuthor() {
     return axios.get('http://localhost:8043/api/submission/reviewable');
+}
+
+function getSubmission(submissionId) {
+    return axios.get(`http://localhost:8043/api/submission/${submissionId}`);
 }
 
 function getAllSubmissions() {

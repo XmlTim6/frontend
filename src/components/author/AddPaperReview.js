@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, makeStyles } from '@material-ui/core';
 import Header from '../shared/Header';
 import Upload from './Upload';
 import { SubmissionService } from '../../services/SubmissionService';
+import { PaperService } from '../../services/PaperService';
 import { useParams } from 'react-router-dom';
 import { reviewPaperDocSpec } from '../../helpers/reviewPaperDocSpec';
 
@@ -38,6 +39,15 @@ const AddPaperReview = () => {
                 })
     }
 
+    useEffect(() => {
+        SubmissionService.getSubmission(submissionId)
+            .then(response => {
+                const sub = response.data
+                PaperService.getPaper('paper', sub.id, sub.currentRevision, 'paper_anon.xml', 'string')
+                    .then(response => setXml(response.data))
+            })
+    }, [submissionId])
+
     const classes = useStyles();
 
     return (
@@ -49,7 +59,7 @@ const AddPaperReview = () => {
                     {text.success}
                 </span>
             </Container>
-            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Add paper with notes"} docSpec={reviewPaperDocSpec}/>
+            <Upload name="editer" xml={xml} setXml={setXml} handleSubmit={handleSubmitXml} title={"Add paper with notes"} docSpec={reviewPaperDocSpec} />
         </Container>
     )
 }
