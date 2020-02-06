@@ -644,6 +644,7 @@ export const paperDocSpec = {
             }
         },
         'code': {
+            hasText: true,
             menu: [
                 idMenu,
                 ...rdfMenu,
@@ -661,6 +662,7 @@ export const paperDocSpec = {
             }
         },
         'formula': {
+            hasText: true,
             menu: [
                 idMenu,
                 ...rdfMenu,

@@ -4,6 +4,7 @@ import { Container, Paper } from '@material-ui/core';
 import Header from './Header';
 import { PaperService } from '../../services/PaperService';
 import { getToken } from '../../services/TokenService';
+import history from '../../helpers/history';
 
 const Details = () => {
     const { submissionId, revision, doc } = useParams();
@@ -33,7 +34,14 @@ const Details = () => {
     const navigate = (e) => {
         if (e.target.tagName === 'A') {
             e.preventDefault();
-            const hash = e.target.getAttribute('href').replace('#', '');
+            var hash = e.target.getAttribute('href').replace('#', '');
+            if(hash.includes('localhost')){
+                hash = hash.replace('http://localhost:3000', '')
+                window.scrollTo(0,0)
+                history.push(hash)
+                window.location.reload()
+                return;
+            }
             document.getElementById(hash).scrollIntoView();
             window.scrollBy(0, -64);
         }
@@ -44,18 +52,38 @@ const Details = () => {
             <Header />
             <Container>
                 <div style={{ marginTop: 16, textAlign: "right", fontSize: 22 }}>
-                    <a style={{ marginRight: 16 }}
+                    <a
+                        style={{ marginRight: 16 }}
                         target="_blank"
                         rel="noopener noreferrer"
                         href={`http://localhost:8043/api/${api}?collection=${submissionId}&revision=${revision}&document=${doc}&format=pdf&token=${getToken()}`}>
                         PDF
                     </a>
                     <a
+                        style={{ marginRight: 16 }}
                         target="_blank"
                         rel="noopener noreferrer"
                         href={`http://localhost:8043/api/${api}?collection=${submissionId}&revision=${revision}&document=${doc}&format=xml&token=${getToken()}`}>
                         XML
                     </a>
+                    {
+                        api === 'paper' &&
+                        <span>
+                            <a
+                                style={{ marginRight: 16 }}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`http://localhost:8043/api/${api}/metadata?collection=${submissionId}&revision=${revision}&document=${doc}&format=rdf&token=${getToken()}`}>
+                                META RDF
+                            </a>
+                            <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`http://localhost:8043/api/${api}/metadata?collection=${submissionId}&revision=${revision}&document=${doc}&format=json&token=${getToken()}`}>
+                                META JSON
+                            </a>
+                        </span>
+                    }
                 </div>
                 <Paper style={{ paddingTop: 16, paddingBottom: 16 }}>
                     <div id="content" onClick={navigate}>
