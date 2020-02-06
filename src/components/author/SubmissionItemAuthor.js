@@ -12,6 +12,7 @@ const SumbissionItemAuthor = (props) => {
 
     const [papers, setPapers] = useState([])
     const [letters, setLetters] = useState([])
+    const [forms, setForms] = useState([])
 
     useEffect(() => {
         SubmissionService.getPapersForSub(submission.id)
@@ -23,6 +24,11 @@ const SumbissionItemAuthor = (props) => {
             .then(response => {
                 const links = response.data.map(link => link.replace('http://localhost:3000', ''))
                 setLetters(links)
+            })
+        SubmissionService.getReviewsForSub(submission.id)
+            .then(response => {
+                const links = response.data.map(link => link.replace('http://localhost:3000', ''))
+                setForms(links)
             })
     }, [submission])
 
@@ -103,7 +109,7 @@ const SumbissionItemAuthor = (props) => {
                     }
                 </div>
             </Paper>
-            <PaperDialog open={open} onClose={handleCloseDialog} links={[...papers, ...letters]}/>
+            <PaperDialog open={open} onClose={handleCloseDialog} links={[...papers, ...letters, ...forms]} />
         </div>
     )
 }
