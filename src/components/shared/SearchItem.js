@@ -55,7 +55,7 @@ const SearchItem = (props) => {
                     <br />
                     {`Accepted: ${paper.accepted}`}
                     <br />
-                    <Button style={{ marginTop: 8 }} color="primary" variant="contained" onClick={handleOpenDialog}>Citations</Button>
+                    <Button style={{ marginTop: 8 }} color="primary" variant="contained" onClick={handleOpenDialog}>CITED BY</Button>
                 </div>
             </Paper>
             <PaperDialog open={open} onClose={handleCloseDialog} links={[...links]} />

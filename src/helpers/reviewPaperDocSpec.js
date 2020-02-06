@@ -19,7 +19,7 @@ export const reviewPaperDocSpec = {
                 {
                     caption: 'Add <note>',
                     action: Xonomy.newElementChild,
-                    actionParameter: '<note id_ref=""></note>',
+                    actionParameter: '<note ref_id=""></note>',
                 },
                 {
                     caption: "Delete element",
@@ -36,7 +36,7 @@ export const reviewPaperDocSpec = {
                 }
             ],
             attributes: {
-                'id_ref': {
+                'ref_id': {
                     asker: Xonomy.askString
                 }
             }
