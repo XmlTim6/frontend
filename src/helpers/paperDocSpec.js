@@ -520,7 +520,7 @@ export const paperDocSpec = {
                 {
                     caption: "Add <image>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<image src=""></image>',
+                    actionParameter: '<image src="" title=""></image>',
                 },
                 {
                     caption: "Add <list>",
@@ -540,17 +540,17 @@ export const paperDocSpec = {
                 {
                     caption: "Add <code>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<code></code>',
+                    actionParameter: '<code title=""></code>',
                 },
                 {
                     caption: "Add <formula>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<formula></formula>',
+                    actionParameter: '<formula title=""></formula>',
                 },
                 {
                     caption: "Add <table>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<table></table>',
+                    actionParameter: '<table title=""></table>',
                 },
                 {
                     caption: "Delete element",
@@ -638,10 +638,6 @@ export const paperDocSpec = {
                 },
                 'title': {
                     asker: Xonomy.askString,
-                    menu: [{
-                        caption: "Delete this @title",
-                        action: Xonomy.deleteAttribute
-                    }]
                 },
                 ...rdfAttr,
                 ...idAttr,
@@ -659,6 +655,9 @@ export const paperDocSpec = {
             attributes: {
                 ...rdfAttr,
                 ...idAttr,
+                'title': {
+                    asker: Xonomy.askString,
+                },
             }
         },
         'formula': {
@@ -673,6 +672,9 @@ export const paperDocSpec = {
             attributes: {
                 ...rdfAttr,
                 ...idAttr,
+                'title': {
+                    asker: Xonomy.askString,
+                },
             }
         },
         'list': {
@@ -726,7 +728,10 @@ export const paperDocSpec = {
             ],
             attributes: {
                 ...idAttr,
-                ...rdfAttr
+                ...rdfAttr,
+                'title': {
+                    asker: Xonomy.askString,
+                },
             }
         },
         'row': {
