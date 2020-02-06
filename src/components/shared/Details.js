@@ -42,6 +42,7 @@ const Details = () => {
                 window.location.reload()
                 return;
             }
+            console.log(document.getElementById(hash))
             document.getElementById(hash).scrollIntoView();
             window.scrollBy(0, -64);
         }

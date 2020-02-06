@@ -126,12 +126,12 @@ export const coverDocSpec = {
                 {
                     caption: "Add <paragraph>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<paragraph></paragraph>',
+                    actionParameter: '<paragraph id=""></paragraph>',
                 },
                 {
                     caption: "Add <list>",
                     action: Xonomy.newElementChild,
-                    actionParameter: '<list type="unordered"></list>',
+                    actionParameter: '<list type="unordered" id=""></list>',
                 },
             ]
         },
@@ -153,6 +153,11 @@ export const coverDocSpec = {
                     action: Xonomy.deleteElement
                 }
             ],
+            attributes: {
+                "id": {
+                    asker: Xonomy.askString,
+                },
+            }
         },
         'bold': {
             oneliner: true,
@@ -195,6 +200,9 @@ export const coverDocSpec = {
                         'ordered', 'unordered'
                     ],
                 },
+                'id': {
+                    asker: Xonomy.askString,
+                }
             }
         },
         'list_item': {
