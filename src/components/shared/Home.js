@@ -24,7 +24,9 @@ const Home = () => {
             .then(response => {
                 const array = []
                 response.data.forEach(element => {
-                    array.push(JSON.parse(element.replace(/'/g, '"').replace(/, ]/g, ']')))
+                    const el = JSON.parse(element.replace(/'/g, '"').replace(/, ]/g, ']'))
+                    el.link = el.link.replace('http://localhost:3000/', '').replace('revision_', '')
+                    array.push(el)
                 });
                 setPapers(array)
             })
